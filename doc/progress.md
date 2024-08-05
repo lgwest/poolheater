@@ -1,7 +1,7 @@
 # progress
 
 ## first board and code
-Red lead indicates heater on
+Red led indicates heater on
 
 ![](20240803_072009.jpg)
 

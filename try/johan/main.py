@@ -2,7 +2,7 @@ import network
 import socket
 import time
 from machine import Pin, ADC
-import mdns  # Kontrollera att mdns-modulen är tillgänglig
+#import mdns  # Kontrollera att mdns-modulen är tillgänglig
 
 # Ditt WiFi-nätverks namn (SSID) och lösenord
 SSID = 'Tele2_24BB96'
@@ -10,7 +10,7 @@ PASSWORD = 'uei3rt7j'
 HOSTNAME = 'PicoTemp'
 
 # Statisk IP-konfiguration
-STATIC_IP = '192.168.0.255'
+STATIC_IP = '192.168.0.122'
 SUBNET_MASK = '255.255.255.0'
 GATEWAY = '192.168.0.1'
 DNS_SERVER = '192.168.0.1'
@@ -55,7 +55,8 @@ def read_temperature():
 def connect_to_wifi():
     wlan = network.WLAN(network.STA_IF)
     wlan.active(True)
-    wlan.config(dhcp_hostname=HOSTNAME)
+    #wlan.config(dhcp_hostname=HOSTNAME)
+    network.hostname(HOSTNAME) # gör ingen nytta?
     wlan.ifconfig((STATIC_IP, SUBNET_MASK, GATEWAY, DNS_SERVER))
     wlan.connect(SSID, PASSWORD)
     retries = 0
@@ -70,9 +71,9 @@ def connect_to_wifi():
         print('IP-adress:', wlan.ifconfig()[0])
         led.on()  # Tänder LED:en med fast sken
         # Starta mDNS
-        mdns_instance = mdns.Server()
-        mdns_instance.start(HOSTNAME, "MicroPython")
-        mdns_instance.add_service('_http', '_tcp', 80, hostname=HOSTNAME, txt="PicoTemp Web Server")
+        #mdns_instance = mdns.Server()
+        #mdns_instance.start(HOSTNAME, "MicroPython")
+        #mdns_instance.add_service('_http', '_tcp', 80, hostname=HOSTNAME, txt="PicoTemp Web Server")
         return wlan
     else:
         print('Misslyckades att ansluta till WiFi.')
